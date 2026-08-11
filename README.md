@@ -9,8 +9,8 @@
 | Field | Details |
 |-------|---------|
 | **Full Name** | Nandish Agarwal |
-| **Branch** | — |
-| **Mobile Number** | — |
+| **Branch** |CSE |
+| **Mobile Number** | 9701476309 |
 | **Email** | nandishagarwal0660@gmail.com |
 | **Live Project Link** | https://codeutsav-10-0.vercel.app/ |
 | **Working Demo Video** | *(To be added)* |
