@@ -12,7 +12,7 @@
 | **Branch** | — |
 | **Mobile Number** | — |
 | **Email** | nandishagarwal0660@gmail.com |
-| **Live Project Link** | *(To be added after deployment)* |
+| **Live Project Link** | https://codeutsav-10-0.vercel.app/ |
 | **Working Demo Video** | *(To be added)* |
 
 ---
