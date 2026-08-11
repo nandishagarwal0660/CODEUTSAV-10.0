@@ -1,28 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>CodeUtsava 10.0 | Mission: Code — NIT Raipur</title>
-  <meta name="description" content="CodeUtsava 10.0 — Central India's largest coding hackathon at NIT Raipur. Join the space mission of code, innovation, and technology. Register now!" />
-  <meta name="keywords" content="CodeUtsava, CodeUtsava 10.0, hackathon, NIT Raipur, coding event, TCP, Turing Club of Programmers" />
+  <meta name="description"
+    content="CodeUtsava 10.0 — Central India's largest coding hackathon at NIT Raipur. Join the space mission of code, innovation, and technology. Register now!" />
+  <meta name="keywords"
+    content="CodeUtsava, CodeUtsava 10.0, hackathon, NIT Raipur, coding event, TCP, Turing Club of Programmers" />
   <meta name="author" content="Turing Club of Programmers, NIT Raipur" />
+
+  <script>
+    window.onerror = function (msg, url, line, col, error) {
+      var div = document.createElement('div');
+      div.style.position = 'fixed';
+      div.style.top = '0';
+      div.style.left = '0';
+      div.style.width = '100%';
+      div.style.background = 'red';
+      div.style.color = 'white';
+      div.style.padding = '20px';
+      div.style.zIndex = '999999';
+      div.style.fontFamily = 'monospace';
+      div.style.fontSize = '14px';
+      div.style.wordBreak = 'break-all';
+      div.innerHTML = 'ERROR: ' + msg + '<br>URL: ' + url + '<br>LINE: ' + line + ':' + col;
+      document.body.appendChild(div);
+      return false;
+    };
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
 
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=1.1" />
 </head>
+
 <body class="no-scroll">
 
   <!-- ===================== GLOBAL STARFIELD CANVAS ===================== -->
   <canvas id="starfield" class="starfield-canvas"></canvas>
+
+  <!-- ===================== CUSTOM CURSOR ===================== -->
+  <div id="cur-dot" class="cur-dot"></div>
+  <div id="cur-ring" class="cur-ring"></div>
 
   <!-- ============================================================
        ENTER SCREEN  (shown first, before everything)
@@ -58,7 +88,8 @@
       <div class="enter-badge">MISSION CONTROL // TCP × NIT RAIPUR</div>
 
       <div class="enter-logo-ring">
-        <img src="assets/images/logo.png" alt="CodeUtsava 10.0 logo" class="enter-logo" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPNE9XwumrDOADjnuZVFqDKEPLDAHjRD6f_p8ddtN6sA&s"
+          alt="CodeUtsava 10.0 logo" class="enter-logo" />
         <div class="ring r1"></div>
         <div class="ring r2"></div>
         <div class="ring r3"></div>
@@ -81,8 +112,22 @@
       <p class="enter-hint">Click to initiate launch sequence</p>
     </div>
 
+    <!-- Music Control Play/Pause (Circular) -->
+    <button class="landing-audio-btn" id="landing-audio-btn" aria-label="Toggle Music" title="Toggle Music">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="play-icon"
+        id="landing-play-icon" style="display:block;">
+        <polygon points="5 3 19 12 5 21 5 3" />
+      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="pause-icon"
+        id="landing-pause-icon" style="display:none;">
+        <line x1="18" y1="4" x2="18" y2="20" />
+        <line x1="6" y1="4" x2="6" y2="20" />
+      </svg>
+    </button>
+
     <div class="enter-overlay" id="enter-overlay"></div>
   </div>
+
 
   <!-- ============================================================
        MAIN SITE  (hidden until Enter is clicked)
@@ -99,7 +144,9 @@
         </div>
 
         <div class="intro-logo-wrap" id="ilw">
-          <img src="assets/images/logo.png" alt="CodeUtsava 10.0" class="intro-logo" />
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPNE9XwumrDOADjnuZVFqDKEPLDAHjRD6f_p8ddtN6sA&s"
+            alt="CodeUtsava 10.0" class="intro-logo" />
         </div>
 
         <div class="intro-title-wrap" id="itw">
@@ -138,19 +185,35 @@
       <div class="intro-overlay" id="intro-overlay"></div>
     </div>
 
+    <!-- Background Music Audio Element -->
+    <audio id="bg-music" loop src="assets/audio/interstellar_bg.webm" preload="auto"></audio>
+
     <!-- ===================== NAVBAR ===================== -->
     <nav class="navbar" id="navbar">
       <div class="nav-container">
         <a href="#hero" class="nav-brand">
-          <img src="assets/images/logo.png" alt="CodeUtsava" class="nav-logo-img" />
-          <span class="nav-brand-text">CODE<span class="brand-accent">UTSAVA</span> <span class="nav-version-tag">10.0</span></span>
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPNE9XwumrDOADjnuZVFqDKEPLDAHjRD6f_p8ddtN6sA&s"
+            alt="CodeUtsava" class="nav-logo-img" />
+          <span class="nav-brand-text">CODE<span class="brand-accent">UTSAVA</span> <span
+              class="nav-version-tag">10.0</span></span>
         </a>
         <ul class="nav-links" id="nav-links">
-          <li><a href="#about"      class="nav-link" data-section="about">ABOUT</a></li>
-          <li><a href="#sponsors"   class="nav-link" data-section="sponsors">SPONSORS</a></li>
-          <li><a href="#timeline"   class="nav-link" data-section="timeline">TIMELINE</a></li>
+          <li><a href="#about" class="nav-link" data-section="about">ABOUT</a></li>
+          <li><a href="#sponsors" class="nav-link" data-section="sponsors">SPONSORS</a></li>
+          <li><a href="#timeline" class="nav-link" data-section="timeline">TIMELINE</a></li>
           <li><a href="#guidelines" class="nav-link" data-section="guidelines">GUIDELINES</a></li>
-          <li><a href="#faq"        class="nav-link" data-section="faq">FAQ</a></li>
+          <li><a href="#faq" class="nav-link" data-section="faq">FAQ</a></li>
+          <li>
+            <button class="nav-audio-btn" id="audio-toggle" aria-label="Toggle Audio" title="Toggle Music">
+              <span class="audio-icon" id="audio-icon">🔊</span>
+              <span class="audio-waves">
+                <span class="wave w1"></span>
+                <span class="wave w2"></span>
+                <span class="wave w3"></span>
+              </span>
+            </button>
+          </li>
           <li>
             <a href="#register" class="nav-cta-btn">
               <span>LAUNCH NOW</span>
@@ -247,25 +310,43 @@
           <a href="#register" class="btn-primary">
             <span class="btn-icon">🚀</span><span>REGISTER NOW</span>
           </a>
+          <a href="assets/docs/devfolio-registration-steps.pdf" download="devfolio-registration-steps.pdf"
+            class="btn-secondary">
+            <span>DEVFOLIO REGISTRATION STEPS</span>
+          </a>
           <a href="#about" class="btn-secondary">
             <span>MISSION DETAILS</span><span class="btn-arrow">→</span>
           </a>
         </div>
 
         <div class="hero-stats" id="hero-stats">
-          <div class="stat-item"><div class="stat-num">24+</div><div class="stat-desc">HOURS</div></div>
+          <div class="stat-item">
+            <div class="stat-num">24+</div>
+            <div class="stat-desc">HOURS</div>
+          </div>
           <div class="stat-divider"></div>
-          <div class="stat-item"><div class="stat-num">500+</div><div class="stat-desc">CODERS</div></div>
+          <div class="stat-item">
+            <div class="stat-num">500+</div>
+            <div class="stat-desc">CODERS</div>
+          </div>
           <div class="stat-divider"></div>
-          <div class="stat-item"><div class="stat-num">₹1L+</div><div class="stat-desc">PRIZES</div></div>
+          <div class="stat-item">
+            <div class="stat-num">₹1L+</div>
+            <div class="stat-desc">PRIZES</div>
+          </div>
           <div class="stat-divider"></div>
-          <div class="stat-item"><div class="stat-num">10+</div><div class="stat-desc">TRACKS</div></div>
+          <div class="stat-item">
+            <div class="stat-num">10+</div>
+            <div class="stat-desc">TRACKS</div>
+          </div>
         </div>
       </div>
 
       <div class="hero-scroll-indicator">
         <div class="scroll-text">SCROLL TO EXPLORE</div>
-        <div class="scroll-line"><div class="scroll-dot"></div></div>
+        <div class="scroll-line">
+          <div class="scroll-dot"></div>
+        </div>
       </div>
     </section>
 
@@ -282,17 +363,21 @@
           <div class="about-card">
             <div class="about-card-icon">🛸</div>
             <h3>THE MISSION</h3>
-            <p>CodeUtsava is the flagship annual hackathon of the Turing Club of Programmers (TCP), NIT Raipur. Now entering its 10th orbit around innovation, we are Central India's largest and most celebrated coding event.</p>
+            <p>CodeUtsava is the flagship annual hackathon of the Turing Club of Programmers (TCP), NIT Raipur. Now
+              entering its 10th orbit around innovation, we are Central India's largest and most celebrated coding
+              event.</p>
           </div>
           <div class="about-card">
             <div class="about-card-icon">🌌</div>
             <h3>THE UNIVERSE</h3>
-            <p>Hosted at NIT Raipur — a hub of technological excellence — CodeUtsava 10.0 brings together brilliant minds from across the country to solve real-world problems through code.</p>
+            <p>Hosted at NIT Raipur — a hub of technological excellence — CodeUtsava 10.0 brings together brilliant
+              minds from across the country to solve real-world problems through code.</p>
           </div>
           <div class="about-card">
             <div class="about-card-icon">⚡</div>
             <h3>THE FORCE</h3>
-            <p>From AI/ML to Web Development, Cybersecurity to IoT, our diverse tracks ensure every coder finds their frontier. Workshops, mentorship, and networking with industry leaders await.</p>
+            <p>From AI/ML to Web Development, Cybersecurity to IoT, our diverse tracks ensure every coder finds their
+              frontier. Workshops, mentorship, and networking with industry leaders await.</p>
           </div>
         </div>
         <div class="about-mission-panel">
@@ -321,399 +406,502 @@
         </div>
       </div>
 
-    <!-- ===================== SPONSORS SECTION ===================== -->
+      <!-- ===================== SPONSORS SECTION ===================== -->
 
-    <section id="sponsors" class="sponsors-section section">
-      <div class="section-bg-glow glow-purple"></div>
-      <div class="container">
-        <div class="section-header">
-          <div class="section-tag">// MISSION PARTNERS</div>
-          <h2 class="section-title">OUR <span class="accent">SPONSORS</span></h2>
-          <div class="section-line"></div>
-          <p class="section-subtitle">Proudly supported by pioneers of technology and innovation</p>
-        </div>
-        <div class="sponsors-tier">
-          <div class="tier-label">TITLE SPONSOR</div>
-          <div class="sponsors-row">
-            <div class="sponsor-card">
-              <div class="sponsor-placeholder large">
-                <div class="sponsor-orbit-ring"></div>
-                <span class="sponsor-name">PLATINUM PARTNER</span>
-                <span class="sponsor-sub">Become our title sponsor</span>
+      <section id="sponsors" class="sponsors-section section">
+        <div class="section-bg-glow glow-purple"></div>
+        <div class="container">
+          <div class="section-header">
+            <div class="section-tag">// MISSION PARTNERS</div>
+            <h2 class="section-title">OUR <span class="accent">SPONSORS</span></h2>
+            <div class="section-line"></div>
+            <p class="section-subtitle">Proudly supported by pioneers of technology and innovation</p>
+          </div>
+          <div class="sponsors-tier">
+            <div class="tier-label">TITLE SPONSOR</div>
+            <div class="sponsors-row">
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder large">
+                  <div class="sponsor-orbit-ring"></div>
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPNE9XwumrDOADjnuZVFqDKEPLDAHjRD6f_p8ddtN6sA&s"
+                    alt="Sponsor Logo" class="sponsor-logo" />
+                  <div class="sponsor-text">
+                    <span class="sponsor-name">PLATINUM PARTNER</span>
+                    <span class="sponsor-sub">Become our title sponsor</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="sponsors-tier">
-          <div class="tier-label">GOLD SPONSORS</div>
-          <div class="sponsors-row">
-            <div class="sponsor-card"><div class="sponsor-placeholder medium"><span>SPONSOR</span></div></div>
-            <div class="sponsor-card"><div class="sponsor-placeholder medium"><span>SPONSOR</span></div></div>
-            <div class="sponsor-card"><div class="sponsor-placeholder medium"><span>SPONSOR</span></div></div>
-          </div>
-        </div>
-        <div class="sponsors-tier">
-          <div class="tier-label">SILVER SPONSORS</div>
-          <div class="sponsors-row">
-            <div class="sponsor-card"><div class="sponsor-placeholder small"><span>SPONSOR</span></div></div>
-            <div class="sponsor-card"><div class="sponsor-placeholder small"><span>SPONSOR</span></div></div>
-            <div class="sponsor-card"><div class="sponsor-placeholder small"><span>SPONSOR</span></div></div>
-            <div class="sponsor-card"><div class="sponsor-placeholder small"><span>SPONSOR</span></div></div>
-          </div>
-        </div>
-        <div class="sponsor-cta">
-          <p>Interested in sponsoring CodeUtsava 10.0?</p>
-          <a href="mailto:tcp@nitrr.ac.in" class="btn-outline">BECOME A SPONSOR →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== TIMELINE SECTION ===================== -->
-    <section id="timeline" class="timeline-section section">
-      <div class="section-bg-glow glow-cyan"></div>
-      <div class="container">
-        <div class="section-header">
-          <div class="section-tag">// MISSION SCHEDULE</div>
-          <h2 class="section-title">EVENT <span class="accent">TIMELINE</span></h2>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="timeline-wrap" id="timeline-wrap">
-          <!-- Vertical center line -->
-          <div class="timeline-line" id="timeline-line-fill">
-            <div class="tl-line-progress" id="tl-line-progress"></div>
-          </div>
-
-          <!-- Rocket traveler -->
-          <div class="timeline-rocket" id="timeline-rocket" aria-hidden="true">
-            <div class="tl-rocket-body">🚀</div>
-            <div class="tl-rocket-trail">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
-
-          <!-- PHASE 1 — event left, date right -->
-          <div class="tl-row" data-phase="1">
-            <div class="tl-side tl-event-side">
-              <div class="tl-card tl-event-card">
-                <div class="tl-phase-tag">PHASE 01</div>
-                <h3 class="tl-title">#1 Registration Opens!</h3>
-                <p class="tl-desc">Registrations begin for CodeUtsava 10.0, the flagship event of the Turing Club of Programmers. Open to all college students across India.</p>
-                <div class="tl-card-arrow tl-arrow-right">▶</div>
+          <div class="sponsors-tier">
+            <div class="tier-label">GOLD SPONSORS</div>
+            <div class="sponsors-row">
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder medium">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQjVzN8R6iPRztE5sz26TEBaWiQmkD_Q1QJlS0Y6RZBQ&s=10"
+                    alt="Sponsor Logo" class="sponsor-logo" />
+                  <span>SBI</span>
+                </div>
               </div>
-            </div>
-
-            <div class="tl-center-node">
-              <div class="tl-node-inner" id="node-1"><span>🚀</span></div>
-            </div>
-
-            <div class="tl-side tl-date-side">
-              <div class="tl-date-card">
-                <div class="tl-date-main">15<sup>th</sup> September</div>
-                <div class="tl-time-main">11:00 AM</div>
-                <div class="tl-year">2026</div>
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder medium">
+                  <img src="https://companieslogo.com/img/orig/HDB-bb6241fe.png?t=1720244492" alt="Sponsor Logo"
+                    class="sponsor-logo" />
+                  <span>HDFC</span>
+                </div>
+              </div>
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder medium">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbb-vYtlyMaC3kcjvXn5ONNEXHoBbNAQJ9JhzbkVWwPw&s=10"
+                    alt="Sponsor Logo" class="sponsor-logo" />
+                  <span>IIT BOMBAY</span>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- PHASE 2 — date left, event right -->
-          <div class="tl-row tl-row-reverse" data-phase="2">
-            <div class="tl-side tl-date-side">
-              <div class="tl-date-card">
-                <div class="tl-date-main">9<sup>th</sup> October</div>
-                <div class="tl-time-main">11:00 AM</div>
-                <div class="tl-year">2026</div>
+          <div class="sponsors-tier">
+            <div class="tier-label">SILVER SPONSORS</div>
+            <div class="sponsors-row">
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder small">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/8/82/Jawahar_Navodaya_Vidyalaya_logo.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"
+                    alt="Sponsor Logo" class="sponsor-logo" />
+                  <span>JNV DURG</span>
+                </div>
               </div>
-            </div>
-
-            <div class="tl-center-node">
-              <div class="tl-node-inner" id="node-2"><span>📋</span></div>
-            </div>
-
-            <div class="tl-side tl-event-side">
-              <div class="tl-card tl-event-card">
-                <div class="tl-card-arrow tl-arrow-left">◀</div>
-                <div class="tl-phase-tag">PHASE 02</div>
-                <h3 class="tl-title">#2 Shortlisting Begins!</h3>
-                <p class="tl-desc">Team shortlisting begins in batches. Submit your project idea and our expert panel evaluates the most promising innovations.</p>
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder small">
+                  <img src="https://avatars.githubusercontent.com/u/38809367?v=4" alt="Sponsor Logo"
+                    class="sponsor-logo" />
+                  <span>DEVFOLIO</span>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <!-- PHASE 3 — event left, date right -->
-          <div class="tl-row" data-phase="3">
-            <div class="tl-side tl-event-side">
-              <div class="tl-card tl-event-card">
-                <div class="tl-phase-tag">PHASE 03</div>
-                <h3 class="tl-title">#3 Results Announced!</h3>
-                <p class="tl-desc">Shortlisted teams are notified via email. Prepare your crew for the main event — the 36-hour coding odyssey at NIT Raipur.</p>
-                <div class="tl-card-arrow tl-arrow-right">▶</div>
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder small">
+                  <img src="https://leetcode.com/static/images/LeetCode_logo_rvs.png" alt="Sponsor Logo"
+                    class="sponsor-logo" />
+                  <span>LEETCODE</span>
+                </div>
               </div>
-            </div>
-
-            <div class="tl-center-node">
-              <div class="tl-node-inner" id="node-3"><span>✅</span></div>
-            </div>
-
-            <div class="tl-side tl-date-side">
-              <div class="tl-date-card">
-                <div class="tl-date-main">2<sup>nd</sup> November</div>
-                <div class="tl-time-main">11:00 AM</div>
-                <div class="tl-year">2026</div>
+              <div class="sponsor-card">
+                <div class="sponsor-placeholder small">
+                  <img
+                    src="https://media.licdn.com/dms/image/v2/D560BAQEOgoIfP8g_xw/company-logo_200_200/company-logo_200_200/0/1719847023488?e=2147483647&v=beta&t=dWu9x83FT-6r6dfseLKaLBF4mHSQBZITThD8OM99ciI"
+                    alt="Sponsor Logo" class="sponsor-logo" />
+                  <span>DEVFOLIO</span>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- PHASE 4 — date left, event right -->
-          <div class="tl-row tl-row-reverse" data-phase="4">
-            <div class="tl-side tl-date-side">
-              <div class="tl-date-card">
-                <div class="tl-date-main">2<sup>nd</sup> November</div>
-                <div class="tl-time-main">11:00 AM</div>
-                <div class="tl-year">2026</div>
-              </div>
-            </div>
-
-            <div class="tl-center-node">
-              <div class="tl-node-inner" id="node-4"><span>📣</span></div>
-            </div>
-
-            <div class="tl-side tl-event-side">
-              <div class="tl-card tl-event-card">
-                <div class="tl-card-arrow tl-arrow-left">◀</div>
-                <div class="tl-phase-tag">PHASE 04</div>
-                <h3 class="tl-title">#4 Final Teams Announced!</h3>
-                <p class="tl-desc">Final shortlisted teams for CodeUtsava 10.0 are released. Get ready for the ultimate coding battle!</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- PHASE 5 — event left, date right -->
-          <div class="tl-row" data-phase="5">
-            <div class="tl-side tl-event-side">
-              <div class="tl-card tl-event-card">
-                <div class="tl-phase-tag">PHASE 05</div>
-                <h3 class="tl-title">#5 Problem Statements Released!</h3>
-                <p class="tl-desc">Problem statements for CodeUtsava 10.0 across all tracks are officially released. Study them carefully before the hackathon begins.</p>
-                <div class="tl-card-arrow tl-arrow-right">▶</div>
-              </div>
-            </div>
-
-            <div class="tl-center-node">
-              <div class="tl-node-inner" id="node-5"><span>📄</span></div>
-            </div>
-
-            <div class="tl-side tl-date-side">
-              <div class="tl-date-card">
-                <div class="tl-date-main">5<sup>th</sup> November</div>
-                <div class="tl-time-main">12:00 PM</div>
-                <div class="tl-year">2026</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PHASE 6 — date left, event right -->
-          <div class="tl-row tl-row-reverse" data-phase="6">
-            <div class="tl-side tl-date-side">
-              <div class="tl-date-card tl-date-highlight">
-                <div class="tl-date-main">6<sup>th</sup> November</div>
-                <div class="tl-time-main">8:00 AM</div>
-                <div class="tl-year">2026</div>
-              </div>
-            </div>
-
-            <div class="tl-center-node">
-              <div class="tl-node-inner tl-node-final" id="node-6"><span>🏆</span></div>
-            </div>
-
-            <div class="tl-side tl-event-side">
-              <div class="tl-card tl-event-card tl-card-final">
-                <div class="tl-card-arrow tl-arrow-left">◀</div>
-                <div class="tl-phase-tag">PHASE 06</div>
-                <h3 class="tl-title">#6 Hackathon Begins!</h3>
-                <p class="tl-desc">Commencement of CodeUtsava 10.0! 36 hours of hacking, workshops, mentorship, and the quest for glory begins NOW.</p>
-              </div>
-            </div>
-          </div>
-
-        </div><!-- /timeline-wrap -->
-      </div>
-    </section>
-
-    <!-- ===================== GUIDELINES SECTION ===================== -->
-    <section id="guidelines" class="guidelines-section section">
-      <div class="section-bg-glow glow-orange"></div>
-      <div class="container">
-        <div class="section-header">
-          <div class="section-tag">// MISSION RULES</div>
-          <h2 class="section-title">ASTRONAUT <span class="accent">GUIDELINES</span></h2>
-          <div class="section-line"></div>
-        </div>
-        <div class="guidelines-grid">
-          <div class="guideline-card" data-delay="0">
-            <div class="guideline-number">01</div>
-            <div class="guideline-icon">👥</div>
-            <h3>CREW SIZE</h3>
-            <p>Teams can have 2 to 4 members. Solo applications will be considered as teams of 1. Mix of skills strongly recommended.</p>
-          </div>
-          <div class="guideline-card" data-delay="100">
-            <div class="guideline-number">02</div>
-            <div class="guideline-icon">🎓</div>
-            <h3>ELIGIBILITY</h3>
-            <p>Open to all undergraduate and postgraduate students currently enrolled in any college/university in India. Valid ID required.</p>
-          </div>
-          <div class="guideline-card" data-delay="200">
-            <div class="guideline-number">03</div>
-            <div class="guideline-icon">💡</div>
-            <h3>ORIGINAL WORK</h3>
-            <p>All code must be written during the hackathon. Using open-source libraries is allowed. Pre-built projects are strictly prohibited.</p>
-          </div>
-          <div class="guideline-card" data-delay="300">
-            <div class="guideline-number">04</div>
-            <div class="guideline-icon">📱</div>
-            <h3>SUBMISSION</h3>
-            <p>Submit your project via the official platform before the deadline. Include a demo video, GitHub repo link, and documentation.</p>
-          </div>
-          <div class="guideline-card" data-delay="400">
-            <div class="guideline-number">05</div>
-            <div class="guideline-icon">🧑‍⚖️</div>
-            <h3>JUDGING</h3>
-            <p>Projects are judged on Innovation, Technical Complexity, Design & UX, Impact, and Presentation quality.</p>
-          </div>
-          <div class="guideline-card" data-delay="500">
-            <div class="guideline-number">06</div>
-            <div class="guideline-icon">🤝</div>
-            <h3>CODE OF CONDUCT</h3>
-            <p>All participants must adhere to the code of conduct. Respectful behavior, inclusivity, and fair play are mandatory.</p>
+          <div class="sponsor-cta">
+            <p>Interested in sponsoring CodeUtsava 10.0?</p>
+            <a href="mailto:tcp@nitrr.ac.in" class="btn-outline">BECOME A SPONSOR →</a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ===================== FAQ SECTION ===================== -->
-    <section id="faq" class="faq-section section">
-      <div class="section-bg-glow glow-blue"></div>
-      <div class="container">
-        <div class="section-header">
-          <div class="section-tag">// MISSION LOG</div>
-          <h2 class="section-title">FREQUENTLY ASKED <span class="accent">QUESTIONS</span></h2>
-          <div class="section-line"></div>
-        </div>
-        <div class="faq-wrap">
-          <div class="faq-item">
-            <button class="faq-question" id="faq-q1"><span>What is CodeUtsava 10.0?</span><span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>CodeUtsava 10.0 is the 10th edition of the annual flagship hackathon organized by the Turing Club of Programmers (TCP) at NIT Raipur — Central India's largest and most prestigious coding competition.</p></div>
+      <!-- ===================== TIMELINE SECTION ===================== -->
+      <section id="timeline" class="timeline-section section">
+        <div class="section-bg-glow glow-cyan"></div>
+        <div class="container">
+          <div class="section-header">
+            <div class="section-tag">// MISSION SCHEDULE</div>
+            <h2 class="section-title">EVENT <span class="accent">TIMELINE</span></h2>
+            <div class="section-line"></div>
           </div>
-          <div class="faq-item">
-            <button class="faq-question" id="faq-q2"><span>Who can participate?</span><span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>All undergraduate and postgraduate students currently enrolled in any college or university in India are eligible. No restrictions on year of study, branch, or specialization.</p></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" id="faq-q3"><span>How do I register?</span><span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>Click the "REGISTER NOW" button on this page. Fill in your team details, skill sets, and the problem statement you wish to tackle. Registration is free of charge.</p></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" id="faq-q4"><span>What are the prize details?</span><span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>CodeUtsava 10.0 has a total prize pool exceeding ₹1,00,000 including cash prizes, trophies, certificates, goodies, and special awards for Best UI/UX, Most Innovative, and Best Beginner team.</p></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" id="faq-q5"><span>Is accommodation provided?</span><span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>Yes! Accommodation and meals are provided to all outstation participants free of charge for the event duration. Details shared with shortlisted teams via email.</p></div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question" id="faq-q6"><span>What technologies can I use?</span><span class="faq-icon">+</span></button>
-            <div class="faq-answer"><p>No restrictions on technology stack. Use any programming language, framework, library, or tool. Cloud platforms, AI/ML models, APIs, and hardware (IoT) are all welcome.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- ===================== REGISTER SECTION ===================== -->
-    <section id="register" class="register-section section">
-      <div class="section-bg-glow glow-purple"></div>
-      <div class="register-content">
-        <div class="register-orbit">
-          <div class="orbit-ring o1"></div>
-          <div class="orbit-ring o2"></div>
-          <div class="orbit-ring o3"></div>
-        </div>
-        <div class="register-text">
-          <div class="section-tag center-tag">// PREPARE FOR LIFTOFF</div>
-          <h2 class="register-title">READY TO LAUNCH <br /><span class="accent">YOUR MISSION?</span></h2>
-          <p class="register-sub">Join 500+ coders in Central India's most epic hackathon. Your journey begins here.</p>
-          <div class="register-actions">
-            <a href="#" class="btn-primary large-btn">
-              <span class="btn-icon">🚀</span><span>REGISTER FOR CODEUTSAVA 10.0</span>
-            </a>
-            <p class="register-note">Registration is FREE. Open to all college students.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== FOOTER ===================== -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <img src="assets/images/logo.png" alt="CodeUtsava Logo" class="footer-logo" />
-            <h3 class="footer-brand-name">CODEUTSAVA <span class="accent">10.0</span></h3>
-            <p class="footer-brand-desc">Central India's Largest Coding Hackathon.<br />Organized by TCP, NIT Raipur.</p>
-            <div class="footer-socials">
-              <a href="#" class="social-link" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>
-              <a href="#" class="social-link" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-              <a href="#" class="social-link" aria-label="Twitter">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-              </a>
+          <div class="timeline-wrap" id="timeline-wrap">
+            <!-- Vertical center line -->
+            <div class="timeline-line" id="timeline-line-fill">
+              <div class="tl-line-progress" id="tl-line-progress"></div>
             </div>
-          </div>
 
-          <div class="footer-links-col">
-            <h4 class="footer-col-title">QUICK LINKS</h4>
-            <ul class="footer-link-list">
-              <li><a href="#hero">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#sponsors">Sponsors</a></li>
-              <li><a href="#timeline">Timeline</a></li>
-              <li><a href="#guidelines">Guidelines</a></li>
-              <li><a href="#faq">FAQ</a></li>
-            </ul>
-          </div>
+            <!-- Rocket traveler -->
+            <div class="timeline-rocket" id="timeline-rocket" aria-hidden="true">
+              <div class="tl-rocket-body">🚀</div>
+              <div class="tl-rocket-trail">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
 
-          <div class="footer-contact-col">
-            <h4 class="footer-col-title">MISSION CONTROL</h4>
-            <div class="footer-contact-list">
-              <div class="contact-item">
-                <span class="contact-icon">📍</span>
-                <span>NIT Raipur, Chhattisgarh - 492010</span>
+            <!-- PHASE 1 — event left, date right -->
+            <div class="tl-row" data-phase="1">
+              <div class="tl-side tl-event-side">
+                <div class="tl-card tl-event-card">
+                  <div class="tl-phase-tag">PHASE 01</div>
+                  <h3 class="tl-title">#1 Registration Opens!</h3>
+                  <p class="tl-desc">Registrations begin for CodeUtsava 10.0, the flagship event of the Turing Club of
+                    Programmers. Open to all college students across India.</p>
+                  <div class="tl-card-arrow tl-arrow-right">▶</div>
+                </div>
               </div>
-              <div class="contact-item">
-                <span class="contact-icon">📧</span>
-                <a href="mailto:tcp@nitrr.ac.in">tcp@nitrr.ac.in</a>
+
+              <div class="tl-center-node">
+                <div class="tl-node-inner" id="node-1"><span>🚀</span></div>
               </div>
+
+              <div class="tl-side tl-date-side">
+                <div class="tl-date-card">
+                  <div class="tl-date-main">15<sup>th</sup> September</div>
+                  <div class="tl-time-main">11:00 AM</div>
+                  <div class="tl-year">2026</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 2 — date left, event right -->
+            <div class="tl-row tl-row-reverse" data-phase="2">
+              <div class="tl-side tl-date-side">
+                <div class="tl-date-card">
+                  <div class="tl-date-main">9<sup>th</sup> October</div>
+                  <div class="tl-time-main">11:00 AM</div>
+                  <div class="tl-year">2026</div>
+                </div>
+              </div>
+
+              <div class="tl-center-node">
+                <div class="tl-node-inner" id="node-2"><span>📋</span></div>
+              </div>
+
+              <div class="tl-side tl-event-side">
+                <div class="tl-card tl-event-card">
+                  <div class="tl-card-arrow tl-arrow-left">◀</div>
+                  <div class="tl-phase-tag">PHASE 02</div>
+                  <h3 class="tl-title">#2 Shortlisting Begins!</h3>
+                  <p class="tl-desc">Team shortlisting begins in batches. Submit your project idea and our expert panel
+                    evaluates the most promising innovations.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 3 — event left, date right -->
+            <div class="tl-row" data-phase="3">
+              <div class="tl-side tl-event-side">
+                <div class="tl-card tl-event-card">
+                  <div class="tl-phase-tag">PHASE 03</div>
+                  <h3 class="tl-title">#3 Results Announced!</h3>
+                  <p class="tl-desc">Shortlisted teams are notified via email. Prepare your crew for the main event —
+                    the 36-hour coding odyssey at NIT Raipur.</p>
+                  <div class="tl-card-arrow tl-arrow-right">▶</div>
+                </div>
+              </div>
+
+              <div class="tl-center-node">
+                <div class="tl-node-inner" id="node-3"><span>✅</span></div>
+              </div>
+
+              <div class="tl-side tl-date-side">
+                <div class="tl-date-card">
+                  <div class="tl-date-main">2<sup>nd</sup> November</div>
+                  <div class="tl-time-main">11:00 AM</div>
+                  <div class="tl-year">2026</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 4 — date left, event right -->
+            <div class="tl-row tl-row-reverse" data-phase="4">
+              <div class="tl-side tl-date-side">
+                <div class="tl-date-card">
+                  <div class="tl-date-main">2<sup>nd</sup> November</div>
+                  <div class="tl-time-main">11:00 AM</div>
+                  <div class="tl-year">2026</div>
+                </div>
+              </div>
+
+              <div class="tl-center-node">
+                <div class="tl-node-inner" id="node-4"><span>📣</span></div>
+              </div>
+
+              <div class="tl-side tl-event-side">
+                <div class="tl-card tl-event-card">
+                  <div class="tl-card-arrow tl-arrow-left">◀</div>
+                  <div class="tl-phase-tag">PHASE 04</div>
+                  <h3 class="tl-title">#4 Final Teams Announced!</h3>
+                  <p class="tl-desc">Final shortlisted teams for CodeUtsava 10.0 are released. Get ready for the
+                    ultimate coding battle!</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 5 — event left, date right -->
+            <div class="tl-row" data-phase="5">
+              <div class="tl-side tl-event-side">
+                <div class="tl-card tl-event-card">
+                  <div class="tl-phase-tag">PHASE 05</div>
+                  <h3 class="tl-title">#5 Problem Statements Released!</h3>
+                  <p class="tl-desc">Problem statements for CodeUtsava 10.0 across all tracks are officially released.
+                    Study them carefully before the hackathon begins.</p>
+                  <div class="tl-card-arrow tl-arrow-right">▶</div>
+                </div>
+              </div>
+
+              <div class="tl-center-node">
+                <div class="tl-node-inner" id="node-5"><span>📄</span></div>
+              </div>
+
+              <div class="tl-side tl-date-side">
+                <div class="tl-date-card">
+                  <div class="tl-date-main">5<sup>th</sup> November</div>
+                  <div class="tl-time-main">12:00 PM</div>
+                  <div class="tl-year">2026</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 6 — date left, event right -->
+            <div class="tl-row tl-row-reverse" data-phase="6">
+              <div class="tl-side tl-date-side">
+                <div class="tl-date-card tl-date-highlight">
+                  <div class="tl-date-main">6<sup>th</sup> November</div>
+                  <div class="tl-time-main">8:00 AM</div>
+                  <div class="tl-year">2026</div>
+                </div>
+              </div>
+
+              <div class="tl-center-node">
+                <div class="tl-node-inner tl-node-final" id="node-6"><span>🏆</span></div>
+              </div>
+
+              <div class="tl-side tl-event-side">
+                <div class="tl-card tl-event-card tl-card-final">
+                  <div class="tl-card-arrow tl-arrow-left">◀</div>
+                  <div class="tl-phase-tag">PHASE 06</div>
+                  <h3 class="tl-title">#6 Hackathon Begins!</h3>
+                  <p class="tl-desc">Commencement of CodeUtsava 10.0! 36 hours of hacking, workshops, mentorship, and
+                    the quest for glory begins NOW.</p>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /timeline-wrap -->
+        </div>
+      </section>
+
+      <!-- ===================== GUIDELINES SECTION ===================== -->
+      <section id="guidelines" class="guidelines-section section">
+        <div class="section-bg-glow glow-orange"></div>
+        <div class="container">
+          <div class="section-header">
+            <div class="section-tag">// MISSION RULES</div>
+            <h2 class="section-title">ASTRONAUT <span class="accent">GUIDELINES</span></h2>
+            <div class="section-line"></div>
+          </div>
+          <div class="guidelines-grid">
+            <div class="guideline-card" data-delay="0">
+              <div class="guideline-number">01</div>
+              <div class="guideline-icon">👥</div>
+              <h3>CREW SIZE</h3>
+              <p>Teams can have 2 to 4 members. Solo applications will be considered as teams of 1. Mix of skills
+                strongly recommended.</p>
+            </div>
+            <div class="guideline-card" data-delay="100">
+              <div class="guideline-number">02</div>
+              <div class="guideline-icon">🎓</div>
+              <h3>ELIGIBILITY</h3>
+              <p>Open to all undergraduate and postgraduate students currently enrolled in any college/university in
+                India. Valid ID required.</p>
+            </div>
+            <div class="guideline-card" data-delay="200">
+              <div class="guideline-number">03</div>
+              <div class="guideline-icon">💡</div>
+              <h3>ORIGINAL WORK</h3>
+              <p>All code must be written during the hackathon. Using open-source libraries is allowed. Pre-built
+                projects are strictly prohibited.</p>
+            </div>
+            <div class="guideline-card" data-delay="300">
+              <div class="guideline-number">04</div>
+              <div class="guideline-icon">📱</div>
+              <h3>SUBMISSION</h3>
+              <p>Submit your project via the official platform before the deadline. Include a demo video, GitHub repo
+                link, and documentation.</p>
+            </div>
+            <div class="guideline-card" data-delay="400">
+              <div class="guideline-number">05</div>
+              <div class="guideline-icon">🧑‍⚖️</div>
+              <h3>JUDGING</h3>
+              <p>Projects are judged on Innovation, Technical Complexity, Design & UX, Impact, and Presentation quality.
+              </p>
+            </div>
+            <div class="guideline-card" data-delay="500">
+              <div class="guideline-number">06</div>
+              <div class="guideline-icon">🤝</div>
+              <h3>CODE OF CONDUCT</h3>
+              <p>All participants must adhere to the code of conduct. Respectful behavior, inclusivity, and fair play
+                are mandatory.</p>
             </div>
           </div>
         </div>
+      </section>
 
-        <div class="footer-bottom">
-          <div class="footer-bottom-line"></div>
-          <div class="footer-bottom-content">
-            <p class="footer-copy">© 2026 CodeUtsava 10.0 — Turing Club of Programmers, NIT Raipur.</p>
-            <p class="footer-mission-status">
-              <span class="mission-indicator"></span>MISSION STATUS: ACTIVE
+      <!-- ===================== FAQ SECTION ===================== -->
+      <section id="faq" class="faq-section section">
+        <div class="section-bg-glow glow-blue"></div>
+        <div class="container">
+          <div class="section-header">
+            <div class="section-tag">// MISSION LOG</div>
+            <h2 class="section-title">FREQUENTLY ASKED <span class="accent">QUESTIONS</span></h2>
+            <div class="section-line"></div>
+          </div>
+          <div class="faq-wrap">
+            <div class="faq-item">
+              <button class="faq-question" id="faq-q1"><span>What is CodeUtsava 10.0?</span><span
+                  class="faq-icon">+</span></button>
+              <div class="faq-answer">
+                <p>CodeUtsava 10.0 is the 10th edition of the annual flagship hackathon organized by the Turing Club of
+                  Programmers (TCP) at NIT Raipur — Central India's largest and most prestigious coding competition.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" id="faq-q2"><span>Who can participate?</span><span
+                  class="faq-icon">+</span></button>
+              <div class="faq-answer">
+                <p>All undergraduate and postgraduate students currently enrolled in any college or university in India
+                  are eligible. No restrictions on year of study, branch, or specialization.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" id="faq-q3"><span>How do I register?</span><span
+                  class="faq-icon">+</span></button>
+              <div class="faq-answer">
+                <p>Click the "REGISTER NOW" button on this page. Fill in your team details, skill sets, and the problem
+                  statement you wish to tackle. Registration is free of charge.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" id="faq-q4"><span>What are the prize details?</span><span
+                  class="faq-icon">+</span></button>
+              <div class="faq-answer">
+                <p>CodeUtsava 10.0 has a total prize pool exceeding ₹1,00,000 including cash prizes, trophies,
+                  certificates, goodies, and special awards for Best UI/UX, Most Innovative, and Best Beginner team.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" id="faq-q5"><span>Is accommodation provided?</span><span
+                  class="faq-icon">+</span></button>
+              <div class="faq-answer">
+                <p>Yes! Accommodation and meals are provided to all outstation participants free of charge for the event
+                  duration. Details shared with shortlisted teams via email.</p>
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" id="faq-q6"><span>What technologies can I use?</span><span
+                  class="faq-icon">+</span></button>
+              <div class="faq-answer">
+                <p>No restrictions on technology stack. Use any programming language, framework, library, or tool. Cloud
+                  platforms, AI/ML models, APIs, and hardware (IoT) are all welcome.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== REGISTER SECTION ===================== -->
+      <section id="register" class="register-section section">
+        <div class="section-bg-glow glow-purple"></div>
+        <div class="register-content">
+          <div class="register-orbit">
+            <div class="orbit-ring o1"></div>
+            <div class="orbit-ring o2"></div>
+            <div class="orbit-ring o3"></div>
+          </div>
+          <div class="register-text">
+            <div class="section-tag center-tag">// PREPARE FOR LIFTOFF</div>
+            <h2 class="register-title">READY TO LAUNCH <br /><span class="accent">YOUR MISSION?</span></h2>
+            <p class="register-sub">Join 500+ coders in Central India's most epic hackathon. Your journey begins here.
             </p>
+            <div class="register-actions">
+              <a href="#" class="btn-primary large-btn">
+                <span class="btn-icon">🚀</span><span>REGISTER FOR CODEUTSAVA 10.0</span>
+              </a>
+              <p class="register-note">Registration is FREE. Open to all college students.</p>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </section>
+
+      <!-- ===================== FOOTER ===================== -->
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPNE9XwumrDOADjnuZVFqDKEPLDAHjRD6f_p8ddtN6sA&s"
+                alt="CodeUtsava Logo" class="footer-logo" />
+              <h3 class="footer-brand-name">CODEUTSAVA <span class="accent">10.0</span></h3>
+              <p class="footer-brand-desc">Central India's Largest Coding Hackathon.<br />Organized by TCP, NIT Raipur.
+              </p>
+              <div class="footer-socials">
+                <a href="#" class="social-link" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </a>
+                <a href="#" class="social-link" aria-label="Twitter">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div class="footer-links-col">
+              <h4 class="footer-col-title">QUICK LINKS</h4>
+              <ul class="footer-link-list">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#sponsors">Sponsors</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#guidelines">Guidelines</a></li>
+                <li><a href="#faq">FAQ</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-contact-col">
+              <h4 class="footer-col-title">MISSION CONTROL</h4>
+              <div class="footer-contact-list">
+                <div class="contact-item">
+                  <span class="contact-icon">📍</span>
+                  <span>NIT Raipur, Chhattisgarh - 492010</span>
+                </div>
+                <div class="contact-item">
+                  <span class="contact-icon">📧</span>
+                  <a href="mailto:tcp@nitrr.ac.in">tcp@nitrr.ac.in</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <div class="footer-bottom-line"></div>
+            <div class="footer-bottom-content">
+              <p class="footer-copy">© 2026 CodeUtsava 10.0 — Turing Club of Programmers, NIT Raipur.</p>
+              <p class="footer-mission-status">
+                <span class="mission-indicator"></span>MISSION STATUS: ACTIVE
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
 
   </div><!-- /main-site -->
 
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=1.1"></script>
 </body>
+
 </html>

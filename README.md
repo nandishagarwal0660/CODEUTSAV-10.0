@@ -23,6 +23,7 @@
 
 - Deep space star field with animated shooting stars (Canvas)
 - Animated rocket launch intro screen
+- Ambient space mission background audio track with navbar sound control toggle
 - Mission countdown timer
 - Glassmorphism UI elements with neon cyan/purple glow
 - Parallax planet animations

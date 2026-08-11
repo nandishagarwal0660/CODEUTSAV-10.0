@@ -138,11 +138,93 @@
   const mainSite     = document.getElementById("main-site");
   const rocketEls    = document.querySelectorAll(".e-rocket");
   const orbits       = document.querySelectorAll(".sat-orbit");
+  const bgMusic      = document.getElementById("bg-music");
+  const audioToggle  = document.getElementById("audio-toggle");
+  const audioIcon    = document.getElementById("audio-icon");
+  const landAudioBtn = document.getElementById("landing-audio-btn");
+  const landPlayIcon = document.getElementById("landing-play-icon");
+  const landPauseIcon= document.getElementById("landing-pause-icon");
+
+  function syncLandingAudioButton(playing) {
+    if (!landPlayIcon || !landPauseIcon) return;
+    if (playing) {
+      landPlayIcon.style.display = "none";
+      landPauseIcon.style.display = "block";
+    } else {
+      landPlayIcon.style.display = "block";
+      landPauseIcon.style.display = "none";
+    }
+  }
+
+  // Audio state helper
+  function startMusic() {
+    if (!bgMusic) return;
+    bgMusic.volume = 0.5;
+    bgMusic.play().then(() => {
+      if (audioToggle) {
+        audioToggle.classList.add("playing");
+        audioToggle.classList.remove("muted");
+      }
+      if (audioIcon) audioIcon.textContent = "🔊";
+      syncLandingAudioButton(true);
+    }).catch(err => {
+      console.warn("Audio autoplay blocked:", err);
+    });
+  }
+
+  // Audio Toggle Button handler
+  if (audioToggle && bgMusic) {
+    audioToggle.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        audioToggle.classList.add("playing");
+        audioToggle.classList.remove("muted");
+        if (audioIcon) audioIcon.textContent = "🔊";
+        syncLandingAudioButton(true);
+      } else {
+        bgMusic.pause();
+        audioToggle.classList.remove("playing");
+        audioToggle.classList.add("muted");
+        if (audioIcon) audioIcon.textContent = "🔇";
+        syncLandingAudioButton(false);
+      }
+    });
+  }
+
+  // Landing page audio handler
+  if (landAudioBtn && bgMusic) {
+    landAudioBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // prevent triggering other clicks
+      if (bgMusic.paused) {
+        bgMusic.play();
+        syncLandingAudioButton(true);
+        if (audioToggle) {
+          audioToggle.classList.add("playing");
+          audioToggle.classList.remove("muted");
+        }
+        if (audioIcon) audioIcon.textContent = "🔊";
+      } else {
+        bgMusic.pause();
+        syncLandingAudioButton(false);
+        if (audioToggle) {
+          audioToggle.classList.remove("playing");
+          audioToggle.classList.add("muted");
+        }
+        if (audioIcon) audioIcon.textContent = "🔇";
+      }
+    });
+  }
 
   if (!enterBtn) return;
 
   enterBtn.addEventListener("click", () => {
     enterBtn.disabled = true;
+
+    // Ensure we are at the top of the viewport
+    window.scrollTo(0, 0);
+
+    // Start background music on user gesture
+    startMusic();
 
     // 1. Satellites spin fast
     orbits.forEach(o => {
@@ -166,6 +248,7 @@
       enterScreen.classList.add("hidden");
       mainSite.classList.remove("hidden");
       document.body.classList.add("no-scroll");
+      window.scrollTo(0, 0);
       startIntroSequence();
     }, 1700);
   });
@@ -242,6 +325,7 @@ function startIntroSequence() {
       const introScreen = document.getElementById("intro-screen");
       if (introScreen) introScreen.classList.add("hidden");
       document.body.classList.remove("no-scroll");
+      window.scrollTo(0, 0);
       triggerHeroAnimations();
     }, 2000);
   }
@@ -620,3 +704,111 @@ function triggerHeroAnimations() {
   }
 })();
 
+/* =========================================================
+   CUSTOM CURSOR — trail + click burst
+   ========================================================= */
+(function initCursor() {
+  const dot    = document.getElementById("cur-dot");
+  const ring   = document.getElementById("cur-ring");
+  const canvas = document.getElementById("cur-canvas");
+  if (!dot || !ring || !canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  let W = canvas.width  = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener("resize", () => {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+
+  let mx = -200, my = -200;
+  let rx = -200, ry = -200;  // ring lags behind
+  const particles = [];
+
+  /* --- Move --- */
+  document.addEventListener("mousemove", e => {
+    mx = e.clientX; my = e.clientY;
+
+    /* dot is immediate */
+    dot.style.left = mx + "px";
+    dot.style.top  = my + "px";
+
+    /* trail particle */
+    if (Math.random() < 0.55) {
+      const hue = Math.random() < 0.6 ? 195 : (Math.random() < 0.5 ? 270 : 25);
+      particles.push({
+        x: mx, y: my,
+        vx: (Math.random() - 0.5) * 1.4,
+        vy: (Math.random() - 0.5) * 1.4 - 0.5,
+        r: Math.random() * 3 + 1,
+        alpha: 0.75,
+        hue,
+      });
+    }
+  });
+
+  /* --- Hover on interactive elements --- */
+  const targets = "a, button, input, textarea, select, label, [role=button]";
+  document.addEventListener("mouseover", e => {
+    if (e.target.closest(targets)) ring.classList.add("hovered");
+  });
+  document.addEventListener("mouseout", e => {
+    if (e.target.closest(targets)) ring.classList.remove("hovered");
+  });
+
+  /* --- Click burst --- */
+  document.addEventListener("click", e => {
+    /* dot flash */
+    dot.classList.add("clicked");
+    ring.classList.add("clicked");
+    setTimeout(() => {
+      dot.classList.remove("clicked");
+      ring.classList.remove("clicked");
+    }, 300);
+
+    /* burst particles */
+    for (let i = 0; i < 14; i++) {
+      const angle = (Math.PI * 2 / 14) * i;
+      const speed = 2 + Math.random() * 3.5;
+      particles.push({
+        x: e.clientX, y: e.clientY,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        r: Math.random() * 4 + 2,
+        alpha: 1,
+        hue: Math.random() < 0.5 ? 25 : 195,
+        burst: true,
+      });
+    }
+  });
+
+  /* --- Animate --- */
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    /* ring lag */
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + "px";
+    ring.style.top  = ry + "px";
+
+    /* particles */
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.06;
+      p.alpha -= p.burst ? 0.03 : 0.032;
+      p.r    *= 0.96;
+      if (p.alpha <= 0 || p.r < 0.3) { particles.splice(i, 1); continue; }
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 2);
+      g.addColorStop(0, `hsla(${p.hue},100%,70%,${p.alpha})`);
+      g.addColorStop(1, `hsla(${p.hue},100%,70%,0)`);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
